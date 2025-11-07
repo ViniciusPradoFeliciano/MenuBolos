@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* centro horizontal */
+    align-items: center;       /* centro vertical   */
+    min-height: 100vh;         /* ocupa a altura inteira */
+    margin: 0;                 /* remove margem padrão */
+}
+
+.forms {
+    display: flex;
+    flex-direction: column; /* deixa itens em coluna */
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;       /* limite opcional */
+    text-align: center;
+
+    box-shadow: 0 4px 8px rgba(123, 112, 112, 0.632);
+    border-radius: 16%;
+    padding: 50px;
+}

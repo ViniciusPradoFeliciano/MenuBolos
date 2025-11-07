@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="forms">
+        <h1>Menu bolos</h1>
+        <div class="forma-tamanho">
+            <select name="tamanho">
+
+                <option value="" disabled selected>Selecione um Tamanho</option>
+
+                <optgroup label="Redondo">
+                    <option value="bento">Bentô - 10cm</option>
+                    <option value="10fat">10 fatias - 20cm</option>
+                    <option value="20fat">20 fatias - 24cm</option>
+                    <option value="25fat">25 fatias - 27cm</option>
+                    <option value="40fat">40 fatias - 30cm</option>
+                    <option value="50fat">50 fatias - 34cm</option>
+                </optgroup>
+
+                <optgroup label="Retangular">
+                    <option value="25fat">25 fatias - 27x18</option>
+                    <option value="30fat">30 fatias - 30x20</option>
+                    <option value="40fat">40 fatias - 34x22</option>
+                    <option value="50fat">50 fatias - 37x25</option>
+                    <option value="70fat">70 fatias - 37x31</option>
+                    <option value="110fat">110 fatias - 37x50</option>
+                </optgroup>
+            </select>
+        </div>
+<br>
+        <div class="massa">
+            <select name="massa">
+                <option value="" disabled selected>Selecione uma Massa</option>
+                <option value="baunilha">Baunilha</option>
+                <option value="cacau">Cacau</option>
+                <option value="redvelvet">Red Velvet</option>
+            </select>
+        </div>
+<br>
+        <div class="cobertura">
+            <button id="openDialog">Selecione os Recheios</button>
+        </div>
+<br>
+        <div class="recheio">
+            <select name="recheio">
+                <option value="" disabled selected>Selecione uma Cobertura</option>
+                <option value="A">Chantilly</option>
+                <option value="B">Chocolate</option>
+            </select>
+        </div>
+<br>
+        <div class="decor">
+            <select name="decor">
+                <option value="" disabled selected>Selecione uma Decoração</option>
+                <option value="A">Papel Arroz</option>
+                <option value="B">Topper</option>
+                <option value="C">Inspiração</option>
+                <option value="D">Sem Decoração</option>
+            </select>
+        </div>
+        <br>
+        <button>Enviar para WhatsApp</button>
+    </div>
+</body>
+
+</html>
+
+
+
+
+
+
+<!--Dialog de seleção de radio buttons -->
+<dialog id="dialogRadio">
+    <label>
+        <input type="radio" name="opcao" value="Opção A">
+        La Creme de Chocolate
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção B">
+        Baunilha
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção C">
+        Beijinho
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção D">
+        Creme de Abacaxi
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção E">
+        Creme de Frutas
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção F">
+        Creme Belga
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção G">
+        Ganache
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção H">
+        Moça Cremosa
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção I">
+        Moranguete
+    </label><br>
+
+    <label>
+        <input type="radio" name="opcao" value="Opção J">
+        Mousse de Chocolate</label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção K">
+        Mousse de Doce de Leite
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção L">
+        Mousse de Limâo
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção M">
+        Ninho 
+    </label><br> 
+    <label>
+        <input type="radio" name="opcao" value="Opção N">
+        Nutella
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção O">
+        Quatro Leites
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção P">
+        Sensação
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção Q">
+        Trufado
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção R">
+        Chocolate Branco
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção S">
+        Creme de Brigadeiro meio Amargo
+    </label><br>
+    <label>
+        <input type="radio" name="opcao" value="Opção T">
+        Brigadeiro Gourmet
+    </label><br>
+    <br>
+    <button id="salvar">Salvar</button>
+    <button id="fechar">Cancelar</button>
+</dialog>
