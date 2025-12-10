@@ -50,9 +50,6 @@ MenuBolos/
 ├── styles.css # Estilização da interface
 └── script.js # Lógica (caso exista)
 
-yaml
-Copiar código
-
 ---
 
 ## ✨ **Funcionalidades**
@@ -76,25 +73,6 @@ Lista simples com opções essenciais.
 
 ### ✔ Seleção de Decoração  
 Opções comuns usadas em confeitaria.
-
----
-
-## 🖥 **Prévia da Interface**
-
-> Você pode adicionar imagens aqui.  
-> Basta capturar prints da tela e colocar na pasta do repositório.
-
-Coloque algo assim:
-
-
-yaml
-Copiar código
-
-Ou até um GIF:
-
-
-yaml
-Copiar código
 
 ---
 
