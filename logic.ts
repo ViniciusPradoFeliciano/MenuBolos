@@ -1,15 +1,16 @@
-const dialog = document.getElementById("dialogRadio") as HTMLDialogElement;
-const openBtn = document.getElementById("openDialog") as HTMLButtonElement;
-const salvarBtn = document.getElementById("salvar") as HTMLButtonElement;
-const fecharBtn = document.getElementById("fechar") as HTMLButtonElement;
-const whatsappBtn = document.getElementById("whatsappBtn") as HTMLButtonElement;
-
-const decorSelect = document.getElementById("decorSelect") as HTMLSelectElement;
-const inspiracaoBox = document.getElementById("inspiracaoBox") as HTMLDivElement;
-const inspiracaoImg = document.getElementById("inspiracaoImg") as HTMLInputElement;
-const nomeArquivo = document.getElementById("nomeArquivo") as HTMLSpanElement;
+const dialog = document.getElementById("dialogRadio") as HTMLDialogElement | null;
+const openBtn = document.getElementById("openDialog") as HTMLButtonElement | null;
+const salvarBtn = document.getElementById("salvar") as HTMLButtonElement | null;
+const fecharBtn = document.getElementById("fechar") as HTMLButtonElement | null;
+const whatsappBtn = document.getElementById("whatsappBtn") as HTMLButtonElement | null;
+const decorSelect = document.getElementById("decorSelect") as HTMLSelectElement | null;
 
 let recheiosSelecionados: string[] = [];
+
+/* segurança contra null */
+if (!dialog || !openBtn || !salvarBtn || !fecharBtn || !whatsappBtn || !decorSelect) {
+  throw new Error("Algum elemento do HTML não foi encontrado. Verifique os IDs.");
+}
 
 /* abrir dialog */
 openBtn.addEventListener("click", () => {
@@ -21,7 +22,7 @@ fecharBtn.addEventListener("click", () => {
   dialog.close();
 });
 
-/* limitar 2 recheios */
+/* limitar a 2 recheios */
 const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="recheioCheck"]');
 
 checkboxes.forEach(check => {
@@ -49,24 +50,6 @@ salvarBtn.addEventListener("click", () => {
   dialog.close();
 });
 
-/* mostrar inspiração */
-decorSelect.addEventListener("change", () => {
-  if (decorSelect.value === "Inspiração") {
-    inspiracaoBox.style.display = "flex";
-  } else {
-    inspiracaoBox.style.display = "none";
-    inspiracaoImg.value = "";
-    nomeArquivo.textContent = "";
-  }
-});
-
-/* mostrar nome do arquivo */
-inspiracaoImg.addEventListener("change", () => {
-  if (inspiracaoImg.files && inspiracaoImg.files.length > 0) {
-    nomeArquivo.textContent = `Arquivo: ${inspiracaoImg.files[0].name}`;
-  }
-});
-
 /* enviar whatsapp */
 whatsappBtn.addEventListener("click", () => {
   const tamanho = (document.querySelector('select[name="tamanho"]') as HTMLSelectElement).value;
@@ -79,13 +62,8 @@ whatsappBtn.addEventListener("click", () => {
     return;
   }
 
-  if (decor === "Inspiração" && (!inspiracaoImg.files || inspiracaoImg.files.length === 0)) {
-    alert("Envie uma imagem de inspiração!");
-    return;
-  }
-
   const mensagem =
-`🍰 Pedido de Bolo
+`Pedido de Bolo
 Tamanho: ${tamanho}
 Massa: ${massa}
 Recheios: ${recheiosSelecionados.join(" + ")}

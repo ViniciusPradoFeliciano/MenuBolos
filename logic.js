@@ -5,10 +5,11 @@ const salvarBtn = document.getElementById("salvar");
 const fecharBtn = document.getElementById("fechar");
 const whatsappBtn = document.getElementById("whatsappBtn");
 const decorSelect = document.getElementById("decorSelect");
-const inspiracaoBox = document.getElementById("inspiracaoBox");
-const inspiracaoImg = document.getElementById("inspiracaoImg");
-const nomeArquivo = document.getElementById("nomeArquivo");
 let recheiosSelecionados = [];
+/* segurança contra null */
+if (!dialog || !openBtn || !salvarBtn || !fecharBtn || !whatsappBtn || !decorSelect) {
+    throw new Error("Algum elemento do HTML não foi encontrado. Verifique os IDs.");
+}
 /* abrir dialog */
 openBtn.addEventListener("click", () => {
     dialog.showModal();
@@ -17,7 +18,7 @@ openBtn.addEventListener("click", () => {
 fecharBtn.addEventListener("click", () => {
     dialog.close();
 });
-/* limitar 2 recheios */
+/* limitar a 2 recheios */
 const checkboxes = document.querySelectorAll('input[name="recheioCheck"]');
 checkboxes.forEach(check => {
     check.addEventListener("change", () => {
@@ -39,23 +40,6 @@ salvarBtn.addEventListener("click", () => {
     openBtn.innerText = `Recheio: ${recheiosSelecionados.join(" + ")}`;
     dialog.close();
 });
-/* mostrar inspiração */
-decorSelect.addEventListener("change", () => {
-    if (decorSelect.value === "Inspiração") {
-        inspiracaoBox.style.display = "flex";
-    }
-    else {
-        inspiracaoBox.style.display = "none";
-        inspiracaoImg.value = "";
-        nomeArquivo.textContent = "";
-    }
-});
-/* mostrar nome do arquivo */
-inspiracaoImg.addEventListener("change", () => {
-    if (inspiracaoImg.files && inspiracaoImg.files.length > 0) {
-        nomeArquivo.textContent = `Arquivo: ${inspiracaoImg.files[0].name}`;
-    }
-});
 /* enviar whatsapp */
 whatsappBtn.addEventListener("click", () => {
     const tamanho = document.querySelector('select[name="tamanho"]').value;
@@ -66,11 +50,7 @@ whatsappBtn.addEventListener("click", () => {
         alert("Preencha todas as opções!");
         return;
     }
-    if (decor === "Inspiração" && (!inspiracaoImg.files || inspiracaoImg.files.length === 0)) {
-        alert("Envie uma imagem de inspiração!");
-        return;
-    }
-    const mensagem = `🍰 Pedido de Bolo
+    const mensagem = `Pedido de Bolo
 Tamanho: ${tamanho}
 Massa: ${massa}
 Recheios: ${recheiosSelecionados.join(" + ")}
