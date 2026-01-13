@@ -1,21 +1,170 @@
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;   /* centro horizontal */
-    align-items: center;       /* centro vertical   */
-    min-height: 100vh;         /* ocupa a altura inteira */
-    margin: 0;                 /* remove margem padrão */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.forms {
-    display: flex;
-    flex-direction: column; /* deixa itens em coluna */
-    gap: 15px;
-    width: 100%;
-    max-width: 300px;       /* limite opcional */
-    text-align: center;
+h1 {
+  margin-bottom: 20px;
+  text-align: center;
+}
 
-    box-shadow: 0 4px 8px rgba(123, 112, 112, 0.632);
-    border-radius: 16%;
-    padding: 50px;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #fde9ee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+/* container central */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* card */
+.forms {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 20px 28px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.forms h1 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+}
+
+/* inputs */
+.forms select,
+.forms button,
+.forms input[type="file"] {
+  width: 100%;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 0 12px;
+  font-size: 1rem;
+}
+
+.forms select:focus,
+.forms input:focus {
+  outline: none;
+  border-color: #f48ca2;
+}
+
+/* botão recheio */
+.btn-recheio {
+  background: #f48ca2;
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+/* botão whatsapp */
+.btn-whats {
+  margin-top: 10px;
+  background: #f48ca2;
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+/* inspiração */
+#inspiracaoBox {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  font-size: .9rem;
+}
+
+#nomeArquivo {
+  color: #555;
+}
+
+/* dialog */
+dialog {
+  border: none;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0,.4);
+}
+
+dialog h2 {
+  margin-top: 0;
+}
+
+.lista-recheios {
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.lista-recheios label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .95rem;
+}
+
+.dialog-botoes {
+  display: flex;
+  gap: 10px;
+}
+
+.dialog-botoes button {
+  flex: 1;
+  height: 42px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+}
+
+#salvar {
+  background: #f48ca2;
+  color: white;
+}
+
+#fechar {
+  background: #eee;
+}
+
+#inspiracaoBox {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  font-size: .9rem;
+  margin-top: 10px;   /* 👈 empurra pra baixo */
+}
+
+#inspiracaoBox label {
+  margin-bottom: 4px;
+}
+
+#inspiracaoBox input {
+  margin-top: 6px;    /* 👈 afasta o botão */
+}
+
+
+/* desktop */
+@media (min-width: 768px) {
+  .forms {
+    max-width: 480px;
+  }
 }
