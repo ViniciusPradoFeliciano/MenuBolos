@@ -4,86 +4,103 @@ const dialog = document.getElementById("dialogRadio");
 const openBtn = document.getElementById("openDialog");
 const salvarBtn = document.getElementById("salvar");
 const fecharBtn = document.getElementById("fechar");
+
+const dialogAdicionais = document.getElementById("dialogAdicionais");
+const openAdicionais = document.getElementById("openAdicionais");
+const salvarAdicionais = document.getElementById("salvarAdicionais");
+const fecharAdicionais = document.getElementById("fecharAdicionais");
+
 const whatsappBtn = document.getElementById("whatsappBtn");
 const decorSelect = document.getElementById("decorSelect");
 
 let recheiosSelecionados = [];
+let adicionaisSelecionados = [];
 
-/* segurança contra null */
+/* segurança */
 if (!dialog || !openBtn || !salvarBtn || !fecharBtn || !whatsappBtn || !decorSelect) {
-    throw new Error("Algum elemento do HTML não foi encontrado. Verifique os IDs.");
+    throw new Error("Erro: elementos não encontrados no HTML.");
 }
 
-/* abrir dialog */
-openBtn.addEventListener("click", () => {
-    dialog.showModal();
-});
+/* abrir/fechar recheio */
+openBtn.onclick = () => dialog.showModal();
+fecharBtn.onclick = () => dialog.close();
 
-/* fechar dialog */
-fecharBtn.addEventListener("click", () => {
-    dialog.close();
-});
+/* abrir/fechar adicionais */
+openAdicionais.onclick = () => dialogAdicionais.showModal();
+fecharAdicionais.onclick = () => dialogAdicionais.close();
 
-/* limitar a 2 recheios */
-const checkboxes = document.querySelectorAll('input[name="recheioCheck"]');
-
-checkboxes.forEach(check => {
-    check.addEventListener("change", () => {
-        const marcados = document.querySelectorAll('input[name="recheioCheck"]:checked');
+/* limitar recheios */
+document.querySelectorAll('[name="recheioCheck"]').forEach(check => {
+    check.onchange = () => {
+        const marcados = document.querySelectorAll('[name="recheioCheck"]:checked');
 
         if (marcados.length > 2) {
             check.checked = false;
             alert("Você pode escolher no máximo 2 recheios!");
         }
-    });
+    };
 });
 
 /* salvar recheios */
-salvarBtn.addEventListener("click", () => {
-    const selecionados = document.querySelectorAll('input[name="recheioCheck"]:checked');
+salvarBtn.onclick = () => {
+    const selecionados = document.querySelectorAll('[name="recheioCheck"]:checked');
 
-    if (selecionados.length === 0) {
+    if (!selecionados.length) {
         alert("Selecione pelo menos um recheio!");
         return;
     }
 
-    recheiosSelecionados = Array.from(selecionados).map(el => el.value);
+    recheiosSelecionados = [...selecionados].map(e => e.value);
 
     openBtn.innerText = `Recheio: ${recheiosSelecionados.join(" + ")}`;
 
     dialog.close();
-});
+};
+
+/* salvar adicionais */
+salvarAdicionais.onclick = () => {
+    const selecionados = document.querySelectorAll('[name="adicionalCheck"]:checked');
+
+    adicionaisSelecionados = [...selecionados].map(e => e.value);
+
+    openAdicionais.innerText = adicionaisSelecionados.length
+        ? `Adicionais: ${adicionaisSelecionados.join(" + ")}`
+        : "Selecionar Adicionais";
+
+    dialogAdicionais.close();
+};
 
 /* enviar whatsapp */
-whatsappBtn.addEventListener("click", () => {
-    const tamanho = document.querySelector('select[name="tamanho"]').value;
-    const massa = document.querySelector('select[name="massa"]').value;
-    const cobertura = document.querySelector('select[name="recheio"]').value;
+whatsappBtn.onclick = () => {
+    const tamanho = document.querySelector('[name="tamanho"]').value;
+    const massa = document.querySelector('[name="massa"]').value;
+    const cobertura = document.querySelector('[name="recheio"]').value;
 
-    /* 🔥 ALTERAÇÃO AQUI (usa o TEXTO do select) */
+    /* pega texto bonito */
     const decor = decorSelect.options[decorSelect.selectedIndex].text;
 
-    if (!tamanho || !massa || !cobertura || !decor || recheiosSelecionados.length === 0) {
+    if (!tamanho || !massa || !cobertura || !decor || !recheiosSelecionados.length) {
         alert("Preencha todas as opções!");
         return;
     }
 
-    const mensagem = `\u{1F370}  *NOVO PEDIDO DE BOLO*
+    const mensagem = `🍰  NOVO PEDIDO DE BOLO
 
-📌 *Detalhes do pedido:*
+📌 Detalhes do pedido:
 
-• *Tamanho:* ${tamanho}
-• *Massa:* ${massa}
-• *Recheio(s):* ${recheiosSelecionados.join(" + ")}
-• *Cobertura:* ${cobertura}
-• *Decoração:* ${decor}
+Tamanho: ${tamanho}
+Massa: ${massa}
+Recheios: ${recheiosSelecionados.join(" + ")}
+Adicionais: ${adicionaisSelecionados.length ? adicionaisSelecionados.join(" + ") : "Nenhum"}
+Cobertura: ${cobertura}
+Decoração: ${decor}
 
 ━━━━━━━━━━━━━━━
 💬 Gostaria de confirmar este pedido e verificar valores e disponibilidade.
 
-🙏 Obrigado!`;
+🙏 Obrigado!.`;
 
     const telefone = "19981409015";
 
     window.open(`https://api.whatsapp.com/send?phone=${telefone}&text=${encodeURIComponent(mensagem)}`, "_blank");
-});
+};
