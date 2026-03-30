@@ -21,6 +21,13 @@ if (!dialog || !openBtn || !salvarBtn || !fecharBtn || !whatsappBtn || !decorSel
     throw new Error("Erro: elementos não encontrados no HTML.");
 }
 
+/* 🔥 BLOQUEAR DATA PASSADA */
+const inputData = document.getElementById("dataEntrega");
+if (inputData) {
+    const hoje = new Date().toISOString().split("T")[0];
+    inputData.min = hoje;
+}
+
 /* abrir/fechar recheio */
 openBtn.onclick = () => dialog.showModal();
 fecharBtn.onclick = () => dialog.close();
@@ -76,31 +83,37 @@ whatsappBtn.onclick = () => {
     const massa = document.querySelector('[name="massa"]').value;
     const cobertura = document.querySelector('[name="recheio"]').value;
 
-    /* pega texto bonito */
     const decor = decorSelect.options[decorSelect.selectedIndex].text;
 
-    if (!tamanho || !massa || !cobertura || !decor || !recheiosSelecionados.length) {
+    const dataEntregaRaw = document.getElementById("dataEntrega").value;
+
+    if (!tamanho || !massa || !cobertura || !decor || !recheiosSelecionados.length || !dataEntregaRaw) {
         alert("Preencha todas as opções!");
         return;
     }
 
-    const mensagem = `🍰  NOVO PEDIDO DE BOLO
+    /* formatar data BR */
+    const dataObj = new Date(dataEntregaRaw);
+    const dataEntrega = dataObj.toLocaleDateString("pt-BR");
 
-📌 Detalhes do pedido:
+    const mensagem = `🍰 *NOVO PEDIDO DE BOLO*
 
-Tamanho: ${tamanho}
-Massa: ${massa}
-Recheios: ${recheiosSelecionados.join(" + ")}
-Adicionais: ${adicionaisSelecionados.length ? adicionaisSelecionados.join(" + ") : "Nenhum"}
-Cobertura: ${cobertura}
-Decoração: ${decor}
+📌 *Detalhes do pedido:*
+
+• Tamanho: ${tamanho}
+• Massa: ${massa}
+• Recheios: ${recheiosSelecionados.join(" + ")}
+• Adicionais: ${adicionaisSelecionados.length ? adicionaisSelecionados.join(" + ") : "Nenhum"}
+• Cobertura: ${cobertura}
+• Decoração: ${decor}
+• Data de entrega: ${dataEntrega}
 
 ━━━━━━━━━━━━━━━
 💬 Gostaria de confirmar este pedido e verificar valores e disponibilidade.
 
-🙏 Obrigado!.`;
+🙏 Obrigado!`;
 
-    const telefone = "19981409015";
+    const telefone = "1997196440";
 
     window.open(`https://api.whatsapp.com/send?phone=${telefone}&text=${encodeURIComponent(mensagem)}`, "_blank");
 };

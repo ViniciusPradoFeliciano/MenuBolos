@@ -54,13 +54,13 @@
         Selecionar Recheio
       </button>
 
-
       <!-- COBERTURA -->
       <select name="recheio" required>
         <option value="" disabled selected>Selecione uma Cobertura</option>
         <option value="Chantilly">Chantilly</option>
         <option value="Brigadeiro Tradicional">Brigadeiro Tradicional</option>
-        <option value="Gnache">Ganache</option>
+        <option value="Ganache">Ganache</option>
+        <option value="Sem Cobertura">Sem Cobertura</option>
       </select>
 
       <!-- 🔥 NOVO: ADICIONAIS -->
@@ -78,6 +78,12 @@
         <option value="Sem decoração">Sem decoração</option>
       </select>
 
+      <!-- 🔥 NOVO: DATA -->
+      <div class="input-group">
+        <label for="dataEntrega">📅 Data de entrega</label>
+        <input type="date" name="dataEntrega" id="dataEntrega" required>
+      </div>
+
       <!-- WHATS -->
       <button id="whatsappBtn" class="btn-whats" type="button">
         Enviar para WhatsApp
@@ -88,36 +94,33 @@
   <!-- MODAL RECHEIOS -->
   <dialog id="dialogRadio">
     <h2>Escolha até 2 recheios</h2>
-
     <div class="lista-recheios">
-      <!-- (SEUS RECHEIOS MANTIDOS IGUAIS) -->
+      <label><input type="checkbox" name="recheioCheck" value="Beijinho"> Beijinho</label>
+      <label><input type="checkbox" name="recheioCheck" value="Brigadeiro Gourmet"> Brigadeiro Gourmet</label>
+      <label><input type="checkbox" name="recheioCheck" value="Chocolate Branco"> Chocolate Branco</label>
+      <label><input type="checkbox" name="recheioCheck" value="Creme Belga"> Creme Belga</label>
+      <label><input type="checkbox" name="recheioCheck" value="Creme de Abacaxi"> Creme de Abacaxi</label>
       <label><input type="checkbox" name="recheioCheck" value="Creme de Brigadeiro Meio Amargo"> Creme de Brigadeiro
         Meio Amargo</label>
-      <label><input type="checkbox" name="recheioCheck" value="Ninho"> Ninho</label>
-      <label><input type="checkbox" name="recheioCheck" value="Morangurte"> Morangurte</label>
-      <label><input type="checkbox" name="recheioCheck" value="Prestígio"> Prestígio</label>
-      <label><input type="checkbox" name="recheioCheck" value="Creme de Abacaxi"> Creme de Abacaxi</label>
-      <label><input type="checkbox" name="recheioCheck" value="Mousse de Doce de Leite"> Mousse de Doce de Leite</label>
-      <label><input type="checkbox" name="recheioCheck" value="La Creme de Chocolate"> La Creme de Chocolate</label>
-      <label><input type="checkbox" name="recheioCheck" value="La Creme de Baunilha"> La Creme de Baunilha</label>
-      <label><input type="checkbox" name="recheioCheck" value="Beijinho"> Beijinho</label>
-      <label><input type="checkbox" name="recheioCheck" value="Paçoca"> Paçoca</label>
       <label><input type="checkbox" name="recheioCheck" value="Creme de Frutas"> Creme de Frutas</label>
-      <label><input type="checkbox" name="recheioCheck" value="Creme Belga"> Creme Belga</label>
       <label><input type="checkbox" name="recheioCheck" value="Ganache"> Ganache</label>
+      <label><input type="checkbox" name="recheioCheck" value="La Creme de Baunilha"> La Creme de Baunilha</label>
+      <label><input type="checkbox" name="recheioCheck" value="La Creme de Chocolate"> La Creme de Chocolate</label>
       <label><input type="checkbox" name="recheioCheck" value="Moça Cremosa"> Moça Cremosa</label>
-      <label><input type="checkbox" name="recheioCheck" value="Mousse De Chocolate"> Mousse de Chocolate</label>
+      <label><input type="checkbox" name="recheioCheck" value="Morangurte"> Morangurte</label>
+      <label><input type="checkbox" name="recheioCheck" value="Mousse de Chocolate"> Mousse de Chocolate</label>
+      <label><input type="checkbox" name="recheioCheck" value="Mousse de Doce de Leite"> Mousse de Doce de Leite</label>
       <label><input type="checkbox" name="recheioCheck" value="Mousse de Limão"> Mousse de Limão</label>
+      <label><input type="checkbox" name="recheioCheck" value="Mousse de Maracujá"> Mousse de Maracujá</label>
+      <label><input type="checkbox" name="recheioCheck" value="Ninho"> Ninho</label>
       <label><input type="checkbox" name="recheioCheck" value="Nutella"> Nutella</label>
+      <label><input type="checkbox" name="recheioCheck" value="Paçoca"> Paçoca</label>
+      <label><input type="checkbox" name="recheioCheck" value="Pistache"> Pistache</label>
+      <label><input type="checkbox" name="recheioCheck" value="Prestígio"> Prestígio</label>
       <label><input type="checkbox" name="recheioCheck" value="Quatro Leites"> Quatro Leites</label>
       <label><input type="checkbox" name="recheioCheck" value="Sensação"> Sensação</label>
       <label><input type="checkbox" name="recheioCheck" value="Trufado"> Trufado</label>
-      <label><input type="checkbox" name="recheioCheck" value="Chocolate Branco"> Chocolate Branco</label>
-      <label><input type="checkbox" name="recheioCheck" value="Brigadeiro Gourmet"> Brigadeiro Gourmet</label>
-      <label><input type="checkbox" name="recheioCheck" value="Pistache"> Pistache</label>
-      <label><input type="checkbox" name="recheioCheck" value="Mousse de Maracujá"> Mousse de Maracujá</label>
     </div>
-
     <div class="dialog-botoes">
       <button id="salvar">Salvar</button>
       <button id="fechar">Cancelar</button>
@@ -126,7 +129,7 @@
 
   <!-- 🔥 MODAL ADICIONAIS -->
   <dialog id="dialogAdicionais">
-    <h2>Escolha até 2 adicionais</h2>
+    <h2>Escolha adicionais</h2>
 
     <div class="lista-recheios">
       <label><input type="checkbox" name="adicionalCheck" value="Nozes"> Nozes</label>
@@ -146,6 +149,7 @@
       <button id="fecharAdicionais">Cancelar</button>
     </div>
   </dialog>
+
   <script src="logic.js" defer></script>
 </body>
 
