@@ -1,136 +1,177 @@
 * {
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
-h1 {
-  margin-bottom: 20px;
-  text-align: center;
+  font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: #fde9ee;
+  background: linear-gradient(135deg, #fde9ee, #fcd5ce);
+  padding: 20px 10px;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
 }
 
-/* container central */
-.container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-/* card */
+/* CARD */
 .forms {
-  background: #fff;
+  background: #ffffff;
   width: 100%;
   max-width: 420px;
-  padding: 24px 20px 28px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+
+  padding: 20px 16px 100px;
+
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.15);
+
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .forms h1 {
-  margin: 0 0 8px;
-  font-size: 1.8rem;
+  margin: 0;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #d6336c;
+  margin-bottom: 10px;
 }
 
-/* inputs */
+/* INPUTS */
 .forms select,
-.forms button,
-.forms input[type="file"] {
+.forms button {
   width: 100%;
-  height: 46px;
+  height: 52px;
+  font-size: 16px;
+
   border-radius: 12px;
   border: 1px solid #ddd;
   padding: 0 12px;
-  font-size: 1rem;
+
+  transition: all 0.2s ease;
 }
 
-.forms select:focus,
-.forms input:focus {
+.forms select {
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+
+.forms select:focus {
   outline: none;
   border-color: #f48ca2;
+  box-shadow: 0 0 0 3px rgba(244,140,162,0.2);
 }
 
-/* botão recheio */
+/* BOTÃO RECHEIO */
 .btn-recheio {
-  background: #f48ca2;
+  background: linear-gradient(135deg, #ff7aa2, #ff4d8d);
   color: white;
   border: none;
   font-weight: 600;
+  box-shadow: 0 6px 15px rgba(255, 77, 141, 0.4);
 }
 
-/* botão whatsapp */
+/* WHATS */
 .btn-whats {
-  margin-top: 10px;
-  background: #1bc95b;
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  max-width: 420px;
+
+  height: 58px;
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #25d366, #1ebe5d);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+
   color: white;
   border: none;
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
-/* inspiração */
-#inspiracaoBox {
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  font-size: .9rem;
+/* CLIQUE */
+button:active {
+  transform: scale(0.97);
 }
 
-#nomeArquivo {
-  color: #555;
-}
-
-/* dialog */
+/* MODAL (CORRIGIDO) */
 dialog {
   border: none;
   border-radius: 18px;
-  width: 90%;
+
+  width: 95%;
   max-width: 420px;
+
+  max-height: 80vh; /* controla altura */
   padding: 20px;
+
+  overflow-y: auto; /* ESSENCIAL */
+
+  animation: fadeIn 0.2s ease;
 }
 
 dialog::backdrop {
   background: rgba(0,0,0,.4);
 }
 
-dialog h2 {
-  margin-top: 0;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* LISTA RECHEIOS (CORRIGIDO) */
 .lista-recheios {
-  max-height: 50vh;
+  max-height: 40vh; /* limita mas não quebra */
   overflow-y: auto;
+
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+
   margin: 10px 0;
 }
 
 .lista-recheios label {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: .95rem;
+  gap: 8px;
+
+  padding: 8px;
+  border-radius: 8px;
 }
 
+.lista-recheios label:hover {
+  background: #fff0f4;
+}
+
+/* BOTÕES MODAL */
 .dialog-botoes {
   display: flex;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .dialog-botoes button {
   flex: 1;
-  height: 42px;
+  height: 44px;
   border-radius: 10px;
   border: none;
   font-weight: 600;
@@ -143,28 +184,4 @@ dialog h2 {
 
 #fechar {
   background: #eee;
-}
-
-#inspiracaoBox {
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-  font-size: .9rem;
-  margin-top: 10px;   /* 👈 empurra pra baixo */
-}
-
-#inspiracaoBox label {
-  margin-bottom: 4px;
-}
-
-#inspiracaoBox input {
-  margin-top: 6px;    /* 👈 afasta o botão */
-}
-
-
-/* desktop */
-@media (min-width: 768px) {
-  .forms {
-    max-width: 480px;
-  }
 }
