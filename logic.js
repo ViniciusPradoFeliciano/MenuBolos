@@ -113,7 +113,7 @@ whatsappBtn.onclick = () => {
 
 🙏 Obrigado!`;
 
-    const telefone = "1997196440";
+    const telefone = "19981409015";
 
     window.open(`https://api.whatsapp.com/send?phone=${telefone}&text=${encodeURIComponent(mensagem)}`, "_blank");
 };
