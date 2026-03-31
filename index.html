@@ -18,36 +18,15 @@
       <h1>Menu bolos 🍰</h1>
 
       <!-- TAMANHO -->
-
-      <select name="tamanho" required>
-        <option value="" disabled selected>Selecione um Tamanho</option>
-
-        <optgroup label="Redondo">
-          <option value="Bentô - 10cm">Bentô - 10cm</option>
-          <option value="10 fatias - 20cm">10 fatias - 20cm</option>
-          <option value="20 fatias - 24cm">20 fatias - 24cm</option>
-          <option value="25 fatias - 27cm">25 fatias - 27cm</option>
-          <option value="40 fatias - 30cm">40 fatias - 30cm</option>
-          <option value="50 fatias - 34cm">50 fatias - 34cm</option>
-        </optgroup>
-
-        <optgroup label="Retangular">
-          <option value="25 fatias - 27x18">25 fatias - 27x18</option>
-          <option value="30 fatias - 30x20">30 fatias - 30x20</option>
-          <option value="40 fatias - 34x22">40 fatias - 34x22</option>
-          <option value="50 fatias - 37x25">50 fatias - 37x25</option>
-          <option value="70 fatias - 37x31">70 fatias - 37x31</option>
-          <option value="110 fatias - 37x50">110 fatias - 37x50</option>
-        </optgroup>
-      </select>
+      <button id="openTamanho" class="btn-recheio" type="button">
+        Selecionar Tamanho
+      </button>
 
       <!-- MASSA -->
-      <select name="massa" required>
-        <option value="" disabled selected>Selecione uma Massa</option>
-        <option value="Baunilha">Baunilha</option>
-        <option value="Cacau">Cacau</option>
-        <option value="Red Velvet">Red Velvet</option>
-      </select>
+
+      <button id="openMassa" class="btn-recheio" type="button">
+        Selecionar Massa
+      </button>
 
       <!-- RECHEIO -->
       <button id="openDialog" class="btn-recheio" type="button">
@@ -55,13 +34,10 @@
       </button>
 
       <!-- COBERTURA -->
-      <select name="recheio" required>
-        <option value="" disabled selected>Selecione uma Cobertura</option>
-        <option value="Chantilly">Chantilly</option>
-        <option value="Brigadeiro Tradicional">Brigadeiro Tradicional</option>
-        <option value="Ganache">Ganache</option>
-        <option value="Sem Cobertura">Sem Cobertura</option>
-      </select>
+
+      <button id="openCobertura" class="btn-recheio" type="button">
+        Selecionar Cobertura
+      </button>
 
       <!-- 🔥 NOVO: ADICIONAIS -->
       <button id="openAdicionais" class="btn-recheio" type="button">
@@ -69,14 +45,10 @@
       </button>
 
       <!-- DECORAÇÃO -->
-      <select name="decor" id="decorSelect" required>
-        <option value="" disabled selected>Selecione uma Decoração</option>
-        <option value="Papel Arroz">Papel Arroz</option>
-        <option value="TopperB">Topper Básico</option>
-        <option value="TopperE">Topper Elaborado</option>
-        <option value="Inspiração">Inspiração</option>
-        <option value="Sem decoração">Sem decoração</option>
-      </select>
+      <button id="openDecor" class="btn-recheio" type="button">
+        Selecionar Decoração
+      </button>
+
 
       <!-- 🔥 NOVO: DATA -->
       <div class="input-group">
@@ -123,7 +95,7 @@
     </div>
     <div class="dialog-botoes">
       <button id="fechar">Cancelar</button>
-      <button id="salvar">Salvar</button>
+      <button id="salvar" class="btn-salvar">Salvar</button>
     </div>
   </dialog>
 
@@ -147,9 +119,91 @@
 
     <div class="dialog-botoes">
       <button id="fecharAdicionais">Cancelar</button>
-      <button id="salvarAdicionais">Salvar</button>
+      <button id="salvarAdicionais" class="btn-salvar">Salvar</button>
     </div>
   </dialog>
+
+  <!-- Modal Decoração-->
+  <dialog id="dialogDecor">
+    <h2>Escolha Decoração</h2>
+
+    <div class="lista-recheios">
+      <label><input type="checkbox" name="decorCheck" value="Nenhum"> Nenhum</label>
+      <label><input type="checkbox" name="decorCheck" value="Papel Arroz">Papel Arroz</label>
+      <label><input type="checkbox" name="decorCheck" value="Topper Básico">Topper Básico</label>
+      <label><input type="checkbox" name="decorCheck" value="Topper Elaborado">Topper Elaborado</label>
+      <label><input type="checkbox" name="decorCheck" value="Inspiração">Inspiração</label>
+    </div>
+
+    <div class="dialog-botoes">
+      <button id="fecharDecor">Cancelar</button>
+      <button id="salvarDecor" class="btn-salvar">Salvar</button>
+    </div>
+  </dialog>
+
+  <!--Modal Massa-->
+  <dialog id="dialogMassa">
+    <h2>Escolha a Massa</h2>
+
+    <div class="lista-recheios">
+      <label><input type="checkbox" name="massaCheck" value="Baunilha">Baunilha</label>
+      <label><input type="checkbox" name="massaCheck" value="Cacau">Cacau</label>
+      <label><input type="checkbox" name="massaCheck" value="Red Velvet">Red Velvet</label>
+    </div>
+
+    <div class="dialog-botoes">
+      <button id="fecharMassa">Cancelar</button>
+      <button id="salvarMassa" class="btn-salvar">Salvar</button>
+    </div>
+  </dialog>
+
+
+  <!--Modal Cobertura-->
+  <dialog id="dialogCobertura">
+    <h2>Escolha a Cobertura</h2>
+
+    <div class="lista-recheios">
+      <label><input type="checkbox" name="coberturaCheck" value="Chantilly">Chantilly</label>
+      <label><input type="checkbox" name="coberturaCheck" value="Brigadeiro Tradicional">Brigadeiro Tradicional</label>
+      <label><input type="checkbox" name="coberturaCheck" value="Ganache">Ganache</label>
+    </div>
+
+    <div class="dialog-botoes">
+      <button id="fecharCobertura">Cancelar</button>
+      <button id="salvarCobertura" class="btn-salvar">Salvar</button>
+    </div>
+  </dialog>
+
+
+  <!--Modal Tamanhos-->
+  <dialog id="dialogTamanho">
+    <h2>Escolha o Tamanho</h2>
+
+    <div class="lista-recheios">
+      <p><strong>Redondo</strong></p>
+      <label><input type="checkbox" name="tamanhoCheck" value="Bentô - 10cm">Bentô - 10cm</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="10 fatias - 20cm">10 fatias - 20cm</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="20 fatias - 24cm">20 fatias - 24cm</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="25 fatias - 27cm">25 fatias - 27cm</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="40 fatias - 30cm">40 fatias - 30cm</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="50 fatias - 34cm">50 fatias - 34cm</label>
+<br>
+      <p><strong>Retangular</strong></p>
+      <label><input type="checkbox" name="tamanhoCheck" value="25 fatias - 27x18">25 fatias - 27x18</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="30 fatias - 30x20">30 fatias - 30x20</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="40 fatias - 34x22">40 fatias - 34x22</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="50 fatias - 37x25">50 fatias - 37x25</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="70 fatias - 37x31">70 fatias - 37x31</label>
+      <label><input type="checkbox" name="tamanhoCheck" value="110 fatias - 37x50">110 fatias -37x50</label>
+    </div>
+
+    <div class="dialog-botoes">
+      <button id="fecharTamanho">Cancelar</button>
+      <button id="salvarTamanho" class="btn-salvar">Salvar</button>
+    </div>
+  </dialog>
+
+
 
   <script src="logic.js" defer></script>
 </body>

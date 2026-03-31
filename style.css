@@ -181,12 +181,7 @@ dialog::backdrop {
   font-weight: 600;
 }
 
-#salvar {
-  background: #f48ca2;
-  color: white;
-}
-
-#salvarAdicionais {
+.btn-salvar{
   background: #f48ca2;
   color: white;
 }
