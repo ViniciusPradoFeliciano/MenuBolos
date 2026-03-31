@@ -24,8 +24,12 @@ if (!dialog || !openBtn || !salvarBtn || !fecharBtn || !whatsappBtn || !decorSel
 /* 🔥 BLOQUEAR DATA PASSADA */
 const inputData = document.getElementById("dataEntrega");
 if (inputData) {
-    const hoje = new Date().toISOString().split("T")[0];
-    inputData.min = hoje;
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoje.getDate()).padStart(2, "0");
+    const hojeFormatado = `${ano}-${mes}-${dia}`;
+    inputData.min = hojeFormatado;
 }
 
 /* abrir/fechar recheio */
@@ -79,22 +83,26 @@ salvarAdicionais.onclick = () => {
 
 /* enviar whatsapp */
 whatsappBtn.onclick = () => {
+    const dataEntregaRaw = document.getElementById("dataEntrega").value;
     const tamanho = document.querySelector('[name="tamanho"]').value;
     const massa = document.querySelector('[name="massa"]').value;
     const cobertura = document.querySelector('[name="recheio"]').value;
 
     const decor = decorSelect.options[decorSelect.selectedIndex].text;
 
-    const dataEntregaRaw = document.getElementById("dataEntrega").value;
 
     if (!tamanho || !massa || !cobertura || !decor || !recheiosSelecionados.length || !dataEntregaRaw) {
         alert("Preencha todas as opções!");
         return;
     }
+    if (!dataEntregaRaw) {
+        alert("Selecione a data de entrega!");
+        return;
+    }
 
-    /* formatar data BR */
-    const dataObj = new Date(dataEntregaRaw);
-    const dataEntrega = dataObj.toLocaleDateString("pt-BR");
+    /* ✅ CORREÇÃO DO BUG DE UM DIA */
+    const [ano, mes, dia] = dataEntregaRaw.split("-");
+    const dataEntrega = `${dia}/${mes}/${ano}`;
 
     const mensagem = `🍰 *NOVO PEDIDO DE BOLO*
 

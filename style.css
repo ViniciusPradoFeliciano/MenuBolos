@@ -28,7 +28,7 @@ body {
   padding: 20px 16px 100px;
 
   border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .15);
 
   display: flex;
   flex-direction: column;
@@ -61,13 +61,13 @@ body {
 .forms select {
   background-color: #fff;
   border: 1px solid #e5e5e5;
-  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
 }
 
 .forms select:focus {
   outline: none;
   border-color: #f48ca2;
-  box-shadow: 0 0 0 3px rgba(244,140,162,0.2);
+  box-shadow: 0 0 0 3px rgba(244, 140, 162, 0.2);
 }
 
 /* BOTÃO RECHEIO */
@@ -114,16 +114,18 @@ dialog {
   width: 95%;
   max-width: 420px;
 
-  max-height: 80vh; /* controla altura */
+  max-height: 80vh;
+  /* controla altura */
   padding: 20px;
 
-  overflow-y: auto; /* ESSENCIAL */
+  overflow-y: auto;
+  /* ESSENCIAL */
 
   animation: fadeIn 0.2s ease;
 }
 
 dialog::backdrop {
-  background: rgba(0,0,0,.4);
+  background: rgba(0, 0, 0, .4);
 }
 
 @keyframes fadeIn {
@@ -131,6 +133,7 @@ dialog::backdrop {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -139,7 +142,8 @@ dialog::backdrop {
 
 /* LISTA RECHEIOS (CORRIGIDO) */
 .lista-recheios {
-  max-height: 40vh; /* limita mas não quebra */
+  max-height: 40vh;
+  /* limita mas não quebra */
   overflow-y: auto;
 
   display: flex;
@@ -182,6 +186,11 @@ dialog::backdrop {
   color: white;
 }
 
+#salvarAdicionais {
+  background: #f48ca2;
+  color: white;
+}
+
 #fechar {
   background: #eee;
 }
@@ -208,11 +217,11 @@ dialog::backdrop {
   padding: 0 12px;
 
   background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
 }
 
 .forms input[type="date"]:focus {
   outline: none;
   border-color: #f48ca2;
-  box-shadow: 0 0 0 3px rgba(244,140,162,0.2);
+  box-shadow: 0 0 0 3px rgba(244, 140, 162, 0.2);
 }
