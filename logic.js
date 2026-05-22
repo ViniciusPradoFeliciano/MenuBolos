@@ -239,7 +239,6 @@ finalizarCarrinho.addEventListener("click", () => {
 
     } else {
 
-      mensagem += `*BOLO ${index + 1}*%0A`;
       mensagem += `• Tamanho: ${item.tamanho}%0A`;
       mensagem += `• Massa: ${item.massa}%0A`;
       mensagem += `• Recheios: ${item.recheios.join(" + ")}%0A`;
