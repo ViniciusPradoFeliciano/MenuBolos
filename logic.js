@@ -253,7 +253,7 @@ finalizarCarrinho.addEventListener("click", () => {
 
   });
 
-  const telefone = "5519997196440";
+  const telefone = "5519981409015";
 
   window.open(
     `https://wa.me/${telefone}?text=${mensagem}`,
