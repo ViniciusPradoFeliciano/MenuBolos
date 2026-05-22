@@ -1,19 +1,21 @@
 const dialogRedondo = document.getElementById("dialogRedondo");
 const dialogRetangular = document.getElementById("dialogRetangular");
 const dialogPersonalizacao = document.getElementById("dialogPersonalizacao");
+const dialogCarrinho = document.getElementById("dialogCarrinho");
+const dialogData = document.getElementById("dialogData");
 
 const abrirRedondo = document.getElementById("abrirRedondo");
 const abrirRetangular = document.getElementById("abrirRetangular");
 
-const tamanhoSelecionado = document.getElementById("tamanhoSelecionado");
-
 const abrirCarrinho = document.getElementById("abrirCarrinho");
-const dialogCarrinho = document.getElementById("dialogCarrinho");
-
 const finalizarCarrinho = document.getElementById("finalizarCarrinho");
+
+const tamanhoSelecionado = document.getElementById("tamanhoSelecionado");
 
 let tamanhoAtual = "";
 const carrinho = [];
+
+let itemProntoTemp = null;
 
 
 // ------------------------
@@ -27,23 +29,15 @@ function formatarDataBR(dataISO) {
 
 
 // ------------------------
-// ABRIR DIALOGS
+// ABRIR MODAIS
 // ------------------------
-abrirRedondo.addEventListener("click", () => {
-  dialogRedondo.showModal();
-});
-
-abrirRetangular.addEventListener("click", () => {
-  dialogRetangular.showModal();
-});
-
-abrirCarrinho.addEventListener("click", () => {
-  dialogCarrinho.showModal();
-});
+abrirRedondo.addEventListener("click", () => dialogRedondo.showModal());
+abrirRetangular.addEventListener("click", () => dialogRetangular.showModal());
+abrirCarrinho.addEventListener("click", () => dialogCarrinho.showModal());
 
 
 // ------------------------
-// FECHAR DIALOGS
+// FECHAR MODAIS
 // ------------------------
 document.querySelectorAll(".close-dialog").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -70,7 +64,7 @@ document.querySelectorAll(".tamanho-card").forEach(card => {
 
 
 // ------------------------
-// MAIS PEDIDOS (PRONTOS)
+// MAIS PEDIDOS → ABRE DATA
 // ------------------------
 document.querySelectorAll(".produto-card").forEach(card => {
   card.addEventListener("click", () => {
@@ -78,19 +72,55 @@ document.querySelectorAll(".produto-card").forEach(card => {
     const nome = card.querySelector("h3")?.innerText || "";
     const desc = card.querySelector("span")?.innerText || "";
 
-    carrinho.push({
-      tipo: "pronto",
-      nome,
-      descricao: desc
-    });
+    itemProntoTemp = { nome, desc };
 
-    atualizarCarrinho();
+    dialogData.showModal();
   });
 });
 
 
 // ------------------------
-// LIMITAR RECHEIOS (máx 2)
+// DATA RÁPIDA
+// ------------------------
+const dataRapida = document.getElementById("dataEntregaRapida");
+
+if (dataRapida) {
+  const hoje = new Date().toISOString().split("T")[0];
+  dataRapida.min = hoje;
+}
+
+
+// ------------------------
+// CONFIRMAR ITEM PRONTO
+// ------------------------
+document.getElementById("confirmarPronto")?.addEventListener("click", () => {
+
+  const data = document.getElementById("dataEntregaRapida").value;
+
+  if (!data) {
+    alert("Escolha a data.");
+    return;
+  }
+
+  carrinho.push({
+    tipo: "pronto",
+    nome: itemProntoTemp.nome,
+    descricao: itemProntoTemp.desc,
+    data
+  });
+
+  atualizarCarrinho();
+
+  dialogData.close();
+
+  // 🔥 LIMPEZA IMPORTANTE (corrige seu problema)
+  document.getElementById("dataEntregaRapida").value = "";
+  itemProntoTemp = null;
+});
+
+
+// ------------------------
+// LIMITAR RECHEIOS
 // ------------------------
 document.querySelectorAll('[name="recheio"]').forEach(check => {
   check.addEventListener("change", () => {
@@ -111,16 +141,14 @@ document.querySelectorAll('[name="recheio"]').forEach(check => {
 // ------------------------
 const dataEntrega = document.getElementById("dataEntrega");
 
-const hoje = new Date();
-const ano = hoje.getFullYear();
-const mes = String(hoje.getMonth() + 1).padStart(2, "0");
-const dia = String(hoje.getDate()).padStart(2, "0");
-
-dataEntrega.min = `${ano}-${mes}-${dia}`;
+if (dataEntrega) {
+  const hoje = new Date().toISOString().split("T")[0];
+  dataEntrega.min = hoje;
+}
 
 
 // ------------------------
-// ADICIONAR BOLO PERSONALIZADO
+// ADICIONAR PERSONALIZADO
 // ------------------------
 document.getElementById("whatsappBtn").addEventListener("click", () => {
 
@@ -161,7 +189,7 @@ document.getElementById("whatsappBtn").addEventListener("click", () => {
 
 
 // ------------------------
-// ATUALIZAR CARRINHO (COM REMOVER)
+// ATUALIZAR CARRINHO
 // ------------------------
 function atualizarCarrinho() {
 
@@ -187,6 +215,7 @@ function atualizarCarrinho() {
         <div class="cart-item">
           <strong>🍰 ${item.nome}</strong>
           <span>${item.descricao}</span>
+          <span>📅 ${formatarDataBR(item.data)}</span>
         </div>
       `;
 
@@ -196,9 +225,9 @@ function atualizarCarrinho() {
         <div class="cart-item">
           <strong>🍰 Bolo ${index + 1}</strong>
           <span>${item.tamanho}</span>
+          <span>📅 ${formatarDataBR(item.data)}</span>
         </div>
       `;
-
     }
 
     cartItems.innerHTML += `
@@ -231,11 +260,13 @@ finalizarCarrinho.addEventListener("click", () => {
 
   let mensagem = encodeURIComponent("🍰 NOVO PEDIDO\n\n");
 
-  carrinho.forEach((item, index) => {
+  carrinho.forEach((item) => {
 
     if (item.tipo === "pronto") {
+
       mensagem += `• Produto: ${item.nome}%0A`;
-      mensagem += `• Descrição: ${item.descricao}%0A%0A`;
+      mensagem += `• Descrição: ${item.descricao}%0A`;
+      mensagem += `• Data: ${formatarDataBR(item.data)}%0A%0A`;
 
     } else {
 
@@ -249,7 +280,6 @@ finalizarCarrinho.addEventListener("click", () => {
       mensagem += `• Decoração: ${item.decoracao}%0A`;
       mensagem += `• Data: ${formatarDataBR(item.data)}%0A%0A`;
     }
-
   });
 
   const telefone = "5519981409015";
@@ -258,12 +288,11 @@ finalizarCarrinho.addEventListener("click", () => {
     `https://wa.me/${telefone}?text=${mensagem}`,
     "_blank"
   );
-
 });
 
 
 // ------------------------
-// LIMPAR FORMULÁRIO
+// LIMPAR FORMULÁRIO PERSONALIZADO
 // ------------------------
 function limparFormulario() {
 
@@ -274,4 +303,8 @@ function limparFormulario() {
 
   document.querySelectorAll('[name="recheio"]').forEach(i => i.checked = false);
   document.querySelectorAll('[name="adicional"]').forEach(i => i.checked = false);
+
+  // 🔥 importante: evita “estado preso”
+  tamanhoAtual = "";
+  tamanhoSelecionado.innerText = "";
 }
