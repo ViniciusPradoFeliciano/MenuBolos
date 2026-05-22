@@ -9,13 +9,15 @@ body {
   background: linear-gradient(135deg, #f7e7e7, #f4d7d7);
   min-height: 100vh;
   color: #3f3f3f;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 12px 18px 60px;
+  padding: 0 18px 60px; /* REMOVE o espaço do topo */
 }
 
 /* HERO */
@@ -347,14 +349,18 @@ body {
   justify-content: space-between;
   align-items: center;
 
-  padding: 18px;
+  padding: 14px;
 
   background: rgba(255,255,255,.75);
   backdrop-filter: blur(12px);
 
   border-bottom: 1px solid rgba(255,255,255,.4);
 
+  margin-top: 0;
   margin-bottom: 24px;
+
+  position: sticky;
+
 }
 
 .topbar-left h1 {
