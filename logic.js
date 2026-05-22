@@ -1,261 +1,278 @@
-"use strict";
+const dialogRedondo = document.getElementById("dialogRedondo");
+const dialogRetangular = document.getElementById("dialogRetangular");
+const dialogPersonalizacao = document.getElementById("dialogPersonalizacao");
 
-const dialog = document.getElementById("dialogRadio");
-const openBtn = document.getElementById("openDialog");
-const salvarBtn = document.getElementById("salvar");
-const fecharBtn = document.getElementById("fechar");
+const abrirRedondo = document.getElementById("abrirRedondo");
+const abrirRetangular = document.getElementById("abrirRetangular");
 
-const dialogAdicionais = document.getElementById("dialogAdicionais");
-const openAdicionais = document.getElementById("openAdicionais");
-const salvarAdicionais = document.getElementById("salvarAdicionais");
-const fecharAdicionais = document.getElementById("fecharAdicionais");
+const tamanhoSelecionado = document.getElementById("tamanhoSelecionado");
 
-const dialogDecor = document.getElementById("dialogDecor");
-const openDecor = document.getElementById("openDecor");
-const salvarDecor = document.getElementById("salvarDecor");
-const fecharDecor = document.getElementById("fecharDecor");
+const abrirCarrinho = document.getElementById("abrirCarrinho");
+const dialogCarrinho = document.getElementById("dialogCarrinho");
 
-const dialogMassa = document.getElementById("dialogMassa");
-const openMassa = document.getElementById("openMassa");
-const salvarMassa = document.getElementById("salvarMassa");
-const fecharMassa = document.getElementById("fecharMassa");
+const finalizarCarrinho = document.getElementById("finalizarCarrinho");
 
-const dialogCobertura = document.getElementById("dialogCobertura");
-const openCobertura = document.getElementById("openCobertura");
-const salvarCobertura = document.getElementById("salvarCobertura");
-const fecharCobertura = document.getElementById("fecharCobertura");
+let tamanhoAtual = "";
+const carrinho = [];
 
-const dialogTamanho = document.getElementById("dialogTamanho");
-const openTamanho = document.getElementById("openTamanho");
-const salvarTamanho = document.getElementById("salvarTamanho");
-const fecharTamanho = document.getElementById("fecharTamanho");
 
-const whatsappBtn = document.getElementById("whatsappBtn");
-const decorSelect = document.getElementById("decorSelect");
-
-let recheiosSelecionados = [];
-let adicionaisSelecionados = [];
-let decorSelecionados = [];
-let massaSelecionados = [];
-let coberturaSelecionados = [];
-let tamanhoSelecionados = [];
-
-/* segurança */
-if (!dialog || !openBtn || !salvarBtn || !fecharBtn || !whatsappBtn) {
-    throw new Error("Erro: elementos não encontrados no HTML.");
+// ------------------------
+// FORMATAR DATA BR
+// ------------------------
+function formatarDataBR(dataISO) {
+  if (!dataISO) return "";
+  const [ano, mes, dia] = dataISO.split("-");
+  return `${dia}/${mes}/${ano}`;
 }
 
-/* 🔥 BLOQUEAR DATA PASSADA */
-const inputData = document.getElementById("dataEntrega");
-if (inputData) {
-    const hoje = new Date();
-    const ano = hoje.getFullYear();
-    const mes = String(hoje.getMonth() + 1).padStart(2, "0");
-    const dia = String(hoje.getDate()).padStart(2, "0");
-    const hojeFormatado = `${ano}-${mes}-${dia}`;
-    inputData.min = hojeFormatado;
+
+// ------------------------
+// ABRIR DIALOGS
+// ------------------------
+abrirRedondo.addEventListener("click", () => {
+  dialogRedondo.showModal();
+});
+
+abrirRetangular.addEventListener("click", () => {
+  dialogRetangular.showModal();
+});
+
+abrirCarrinho.addEventListener("click", () => {
+  dialogCarrinho.showModal();
+});
+
+
+// ------------------------
+// FECHAR DIALOGS
+// ------------------------
+document.querySelectorAll(".close-dialog").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const dialogId = btn.dataset.close;
+    document.getElementById(dialogId).close();
+  });
+});
+
+
+// ------------------------
+// ESCOLHER TAMANHO
+// ------------------------
+document.querySelectorAll(".tamanho-card").forEach(card => {
+  card.addEventListener("click", () => {
+    tamanhoAtual = card.dataset.size;
+    tamanhoSelecionado.innerText = tamanhoAtual;
+
+    dialogRedondo.close();
+    dialogRetangular.close();
+
+    dialogPersonalizacao.showModal();
+  });
+});
+
+
+// ------------------------
+// MAIS PEDIDOS (PRONTOS)
+// ------------------------
+document.querySelectorAll(".produto-card").forEach(card => {
+  card.addEventListener("click", () => {
+
+    const nome = card.querySelector("h3")?.innerText || "";
+    const desc = card.querySelector("span")?.innerText || "";
+
+    carrinho.push({
+      tipo: "pronto",
+      nome,
+      descricao: desc
+    });
+
+    atualizarCarrinho();
+  });
+});
+
+
+// ------------------------
+// LIMITAR RECHEIOS (máx 2)
+// ------------------------
+document.querySelectorAll('[name="recheio"]').forEach(check => {
+  check.addEventListener("change", () => {
+
+    const selecionados = document.querySelectorAll('[name="recheio"]:checked');
+
+    if (selecionados.length > 2) {
+      check.checked = false;
+      alert("Escolha no máximo 2 recheios.");
+    }
+
+  });
+});
+
+
+// ------------------------
+// BLOQUEAR DATA PASSADA
+// ------------------------
+const dataEntrega = document.getElementById("dataEntrega");
+
+const hoje = new Date();
+const ano = hoje.getFullYear();
+const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+const dia = String(hoje.getDate()).padStart(2, "0");
+
+dataEntrega.min = `${ano}-${mes}-${dia}`;
+
+
+// ------------------------
+// ADICIONAR BOLO PERSONALIZADO
+// ------------------------
+document.getElementById("whatsappBtn").addEventListener("click", () => {
+
+  const massa = document.getElementById("massaSelect").value;
+  const cobertura = document.getElementById("coberturaSelect").value;
+  const decoracao = document.getElementById("decoracaoSelect").value;
+  const data = document.getElementById("dataEntrega").value;
+
+  const recheiosSelecionados = [
+    ...document.querySelectorAll('[name="recheio"]:checked')
+  ].map(i => i.value);
+
+  const adicionaisSelecionados = [
+    ...document.querySelectorAll('[name="adicional"]:checked')
+  ].map(i => i.value);
+
+  if (!massa || !cobertura || !decoracao || !data || !recheiosSelecionados.length) {
+    alert("Preencha todas as opções.");
+    return;
+  }
+
+  carrinho.push({
+    tipo: "personalizado",
+    tamanho: tamanhoAtual,
+    massa,
+    recheios: recheiosSelecionados,
+    cobertura,
+    adicionais: adicionaisSelecionados,
+    decoracao,
+    data
+  });
+
+  atualizarCarrinho();
+
+  dialogPersonalizacao.close();
+  limparFormulario();
+});
+
+
+// ------------------------
+// ATUALIZAR CARRINHO (COM REMOVER)
+// ------------------------
+function atualizarCarrinho() {
+
+  const cartItems = document.getElementById("cartItems");
+  const cartCount = document.getElementById("cartCount");
+
+  cartCount.innerText = carrinho.length;
+
+  if (carrinho.length === 0) {
+    cartItems.innerHTML = `<p class="cart-empty">Nenhum item adicionado.</p>`;
+    return;
+  }
+
+  cartItems.innerHTML = "";
+
+  carrinho.forEach((item, index) => {
+
+    let html = "";
+
+    if (item.tipo === "pronto") {
+
+      html = `
+        <div class="cart-item">
+          <strong>🍰 ${item.nome}</strong>
+          <span>${item.descricao}</span>
+        </div>
+      `;
+
+    } else {
+
+      html = `
+        <div class="cart-item">
+          <strong>🍰 Bolo ${index + 1}</strong>
+          <span>${item.tamanho}</span>
+        </div>
+      `;
+
+    }
+
+    cartItems.innerHTML += `
+      ${html}
+      <button class="remove-btn" data-index="${index}">
+        Remover
+      </button>
+    `;
+  });
+
+  document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const index = e.target.dataset.index;
+      carrinho.splice(index, 1);
+      atualizarCarrinho();
+    });
+  });
 }
 
-/* abrir/fechar */
-openBtn.onclick = () => dialog.showModal();
-fecharBtn.onclick = () => dialog.close();
 
-openAdicionais.onclick = () => dialogAdicionais.showModal();
-fecharAdicionais.onclick = () => dialogAdicionais.close();
+// ------------------------
+// FINALIZAR WHATSAPP
+// ------------------------
+finalizarCarrinho.addEventListener("click", () => {
 
-openDecor.onclick = () => dialogDecor.showModal();
-fecharDecor.onclick = () => dialogDecor.close();
+  if (carrinho.length === 0) {
+    alert("Seu carrinho está vazio.");
+    return;
+  }
 
-openMassa.onclick = () => dialogMassa.showModal();
-fecharMassa.onclick = () => dialogMassa.close();
+  let mensagem = encodeURIComponent("🍰 NOVO PEDIDO\n\n");
 
-openCobertura.onclick = () => dialogCobertura.showModal();
-fecharCobertura.onclick = () => dialogCobertura.close();
+  carrinho.forEach((item, index) => {
 
-openTamanho.onclick = () => dialogTamanho.showModal();
-fecharTamanho.onclick = () => dialogTamanho.close();
+    if (item.tipo === "pronto") {
+      mensagem += `• Produto: ${item.nome}%0A`;
+      mensagem += `• Descrição: ${item.descricao}%0A%0A`;
 
-/* limitar recheios */
-document.querySelectorAll('[name="recheioCheck"]').forEach(check => {
-    check.onchange = () => {
-        const marcados = document.querySelectorAll('[name="recheioCheck"]:checked');
+    } else {
 
-        if (marcados.length > 2) {
-            check.checked = false;
-            alert("Você pode escolher no máximo 2 recheios!");
-        }
-    };
-});
-
-/* salvar recheios */
-salvarBtn.onclick = () => {
-    const selecionados = document.querySelectorAll('[name="recheioCheck"]:checked');
-
-    if (!selecionados.length) {
-        alert("Selecione pelo menos um recheio!");
-        return;
+      mensagem += `*BOLO ${index + 1}*%0A`;
+      mensagem += `• Tamanho: ${item.tamanho}%0A`;
+      mensagem += `• Massa: ${item.massa}%0A`;
+      mensagem += `• Recheios: ${item.recheios.join(" + ")}%0A`;
+      mensagem += `• Cobertura: ${item.cobertura}%0A`;
+      mensagem += `• Adicionais: ${
+        item.adicionais.length ? item.adicionais.join(" + ") : "Nenhum"
+      }%0A`;
+      mensagem += `• Decoração: ${item.decoracao}%0A`;
+      mensagem += `• Data: ${formatarDataBR(item.data)}%0A%0A`;
     }
 
-    recheiosSelecionados = [...selecionados].map(e => e.value);
+  });
 
-    openBtn.innerText = `Recheio: ${recheiosSelecionados.join(" + ")}`;
+  const telefone = "5519997196440";
 
-    dialog.close();
-};
+  window.open(
+    `https://wa.me/${telefone}?text=${mensagem}`,
+    "_blank"
+  );
 
-/* salvar adicionais */
-salvarAdicionais.onclick = () => {
-    const selecionados = document.querySelectorAll('[name="adicionalCheck"]:checked');
-
-    adicionaisSelecionados = [...selecionados].map(e => e.value);
-
-    openAdicionais.innerText = adicionaisSelecionados.length
-        ? `Adicionais: ${adicionaisSelecionados.join(" + ")}`
-        : "Selecionar Adicionais";
-
-    dialogAdicionais.close();
-};
-
-/*dialog decoração*/
-salvarDecor.onclick = () => {
-    const selecionados = document.querySelectorAll('[name="decorCheck"]:checked');
-
-    decorSelecionados = [...selecionados].map(e => e.value);
-
-    openDecor.innerText = decorSelecionados.length
-        ? `Decoração: ${decorSelecionados.join(" + ")}`
-        : "Selecionar Decoração";
-
-    dialogDecor.close();
-};
-
-document.querySelectorAll('[name="decorCheck"]').forEach(check => {
-    check.onchange = () => {
-        const marcados = document.querySelectorAll('[name="decorCheck"]:checked');
-
-        if (marcados.length > 1) {
-            check.checked = false;
-            alert("Tente escolher no maximo uma Decoração");
-        }
-    };
-});
-
-/*dialog massa*/
-salvarMassa.onclick = () => {
-    const selecionados = document.querySelectorAll('[name="massaCheck"]:checked');
-
-    massaSelecionados = [...selecionados].map(e => e.value);
-
-    openMassa.innerText = massaSelecionados.length
-        ? `Massa: ${massaSelecionados.join(" + ")}`
-        : "Selecionar Massa";
-
-    dialogMassa.close();
-};
-
-document.querySelectorAll('[name="massaCheck"]').forEach(check => {
-    check.onchange = () => {
-        const marcados = document.querySelectorAll('[name="massaCheck"]:checked');
-
-        if (marcados.length > 1) {
-            check.checked = false;
-            alert("Tente escolher no maximo uma Massa");
-        }
-    };
-});
-
-/* dialog cobertur*/
-salvarCobertura.onclick = () => {
-    const selecionados = document.querySelectorAll('[name="coberturaCheck"]:checked');
-
-    coberturaSelecionados = [...selecionados].map(e => e.value);
-
-    openCobertura.innerText = coberturaSelecionados.length
-        ? `Cobertura: ${coberturaSelecionados.join(" + ")}`
-        : "Selecionar Cobertura";
-
-    dialogCobertura.close();
-};
-
-document.querySelectorAll('[name="coberturaCheck"]').forEach(check => {
-    check.onchange = () => {
-        const marcados = document.querySelectorAll('[name="coberturaCheck"]:checked');
-
-        if (marcados.length > 1) {
-            check.checked = false;
-            alert("Tente escolher no maximo uma Massa");
-        }
-    };
 });
 
 
-/* dialog tamanho*/
-salvarTamanho.onclick = () => {
-    const selecionados = document.querySelectorAll('[name="tamanhoCheck"]:checked');
+// ------------------------
+// LIMPAR FORMULÁRIO
+// ------------------------
+function limparFormulario() {
 
-    tamanhoSelecionados = [...selecionados].map(e => e.value);
+  document.getElementById("massaSelect").value = "";
+  document.getElementById("coberturaSelect").value = "";
+  document.getElementById("decoracaoSelect").value = "";
+  document.getElementById("dataEntrega").value = "";
 
-    openTamanho.innerText = tamanhoSelecionados.length
-        ? `Tamanho: ${tamanhoSelecionados.join(" + ")}`
-        : "Selecionar Tamanho";
-
-    dialogTamanho.close();
-};
-
-document.querySelectorAll('[name="tamanhoCheck"]').forEach(check => {
-    check.onchange = () => {
-        const marcados = document.querySelectorAll('[name="tamanhoCheck"]:checked');
-
-        if (marcados.length > 1 || marcados.length == 0) {
-            check.checked = false;
-            alert("Escolha um tamanho");
-        }
-    };
-});
-
-
-
-/* enviar whatsapp */
-whatsappBtn.onclick = () => {
-    const dataEntregaRaw = document.getElementById("dataEntrega").value;
-    const tamanho = tamanhoSelecionados.length ? tamanhoSelecionados.join(", ") : "";
-    const massa = massaSelecionados.length ? massaSelecionados.join(", ") : "";
-    const cobertura = coberturaSelecionados.length ? coberturaSelecionados.join(", ") : "";
-
-    const decor = decorSelecionados.length ? decorSelecionados.join(", ") : "";
-
-
-    if (!decor || !recheiosSelecionados.length || !dataEntregaRaw) {
-        alert("Preencha todas as opções!");
-        return;
-    }
-    if (!dataEntregaRaw) {
-        alert("Selecione a data de entrega!");
-        return;
-    }
-
-    /* ✅ CORREÇÃO DO BUG DE UM DIA */
-    const [ano, mes, dia] = dataEntregaRaw.split("-");
-    const dataEntrega = `${dia}/${mes}/${ano}`;
-
-    const mensagem = `🍰 *NOVO PEDIDO DE BOLO*
-
-📌 *Detalhes do pedido:*
-
-• Tamanho: ${tamanho}
-• Massa: ${massa}
-• Recheios: ${recheiosSelecionados.join(" + ")}
-• Adicionais: ${adicionaisSelecionados.length ? adicionaisSelecionados.join(" + ") : "Nenhum"}
-• Cobertura: ${cobertura}
-• Decoração: ${decor}
-• Data de entrega: ${dataEntrega}
-
-━━━━━━━━━━━━━━━
-💬 Gostaria de confirmar este pedido e verificar valores e disponibilidade.
-
-🙏 Obrigado!`;
-
-    const telefone = "19981409015";
-
-    window.open(`https://api.whatsapp.com/send?phone=${telefone}&text=${encodeURIComponent(mensagem)}`, "_blank");
-};
+  document.querySelectorAll('[name="recheio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('[name="adicional"]').forEach(i => i.checked = false);
+}
