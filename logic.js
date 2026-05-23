@@ -19,7 +19,7 @@ let itemProntoTemp = null;
 
 
 // ------------------------
-// FORMATAR DATA BR
+// FORMATA DATA BR
 // ------------------------
 function formatarDataBR(dataISO) {
   if (!dataISO) return "";
@@ -64,7 +64,7 @@ document.querySelectorAll(".tamanho-card").forEach(card => {
 
 
 // ------------------------
-// MAIS PEDIDOS → ABRE DATA
+// MAIS PEDIDOS (PRONTOS)
 // ------------------------
 document.querySelectorAll(".produto-card").forEach(card => {
   card.addEventListener("click", () => {
@@ -91,7 +91,7 @@ if (dataRapida) {
 
 
 // ------------------------
-// CONFIRMAR ITEM PRONTO
+// CONFIRMAR PRONTO
 // ------------------------
 document.getElementById("confirmarPronto")?.addEventListener("click", () => {
 
@@ -113,7 +113,7 @@ document.getElementById("confirmarPronto")?.addEventListener("click", () => {
 
   dialogData.close();
 
-  // 🔥 LIMPEZA IMPORTANTE (corrige seu problema)
+  // reset correto
   document.getElementById("dataEntregaRapida").value = "";
   itemProntoTemp = null;
 });
@@ -137,7 +137,7 @@ document.querySelectorAll('[name="recheio"]').forEach(check => {
 
 
 // ------------------------
-// BLOQUEAR DATA PASSADA
+// DATA MÍNIMA PERSONALIZADO
 // ------------------------
 const dataEntrega = document.getElementById("dataEntrega");
 
@@ -249,7 +249,7 @@ function atualizarCarrinho() {
 
 
 // ------------------------
-// FINALIZAR WHATSAPP
+// FINALIZAR WHATSAPP (CORRIGIDO 100%)
 // ------------------------
 finalizarCarrinho.addEventListener("click", () => {
 
@@ -258,41 +258,40 @@ finalizarCarrinho.addEventListener("click", () => {
     return;
   }
 
-  let mensagem = encodeURIComponent("🍰 NOVO PEDIDO\n\n");
+  let mensagem = "🍰 NOVO PEDIDO\n\n";
 
   carrinho.forEach((item) => {
 
     if (item.tipo === "pronto") {
 
-      mensagem += `• Produto: ${item.nome}%0A`;
-      mensagem += `• Descrição: ${item.descricao}%0A`;
-      mensagem += `• Data: ${formatarDataBR(item.data)}%0A%0A`;
+      mensagem += `• Produto: ${item.nome}\n`;
+      mensagem += `• Descrição: ${item.descricao}\n`;
+      mensagem += `• Data: ${formatarDataBR(item.data)}\n\n`;
 
     } else {
 
-      mensagem += `• Tamanho: ${item.tamanho}%0A`;
-      mensagem += `• Massa: ${item.massa}%0A`;
-      mensagem += `• Recheios: ${item.recheios.join(" + ")}%0A`;
-      mensagem += `• Cobertura: ${item.cobertura}%0A`;
+      mensagem += `• Tamanho: ${item.tamanho}\n`;
+      mensagem += `• Massa: ${item.massa}\n`;
+      mensagem += `• Recheios: ${item.recheios.join(" + ")}\n`;
+      mensagem += `• Cobertura: ${item.cobertura}\n`;
       mensagem += `• Adicionais: ${
         item.adicionais.length ? item.adicionais.join(" + ") : "Nenhum"
-      }%0A`;
-      mensagem += `• Decoração: ${item.decoracao}%0A`;
-      mensagem += `• Data: ${formatarDataBR(item.data)}%0A%0A`;
+      }\n`;
+      mensagem += `• Decoração: ${item.decoracao}\n`;
+      mensagem += `• Data: ${formatarDataBR(item.data)}\n\n`;
     }
   });
 
   const telefone = "5519981409015";
 
-  window.open(
-    `https://wa.me/${telefone}?text=${mensagem}`,
-    "_blank"
-  );
+  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+
+  window.open(url, "_blank");
 });
 
 
 // ------------------------
-// LIMPAR FORMULÁRIO PERSONALIZADO
+// LIMPAR FORMULÁRIO
 // ------------------------
 function limparFormulario() {
 
@@ -304,7 +303,6 @@ function limparFormulario() {
   document.querySelectorAll('[name="recheio"]').forEach(i => i.checked = false);
   document.querySelectorAll('[name="adicional"]').forEach(i => i.checked = false);
 
-  // 🔥 importante: evita “estado preso”
   tamanhoAtual = "";
   tamanhoSelecionado.innerText = "";
 }
